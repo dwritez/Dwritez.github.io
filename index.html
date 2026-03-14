@@ -1,369 +1,615 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Dani Elle | Author</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <title>Dani Elle Writes | Author</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
   <style>
     :root {
-      --bg: #0e0605;
-      --bg2: #160a07;
+      --black: #000000;
+      --black2: #080808;
+      --black3: #0f0f0f;
       --gold: #C9A84C;
-      --gold-light: #e8c96a;
-      --crimson: #8B1A1A;
+      --gold2: #e8c96a;
+      --crimson: #7a1515;
       --cream: #F5EDD6;
-      --muted: #a89070;
-      --copper: #C47B4A;
-      --border: rgba(201,168,76,0.2);
+      --muted: #888;
+      --border: rgba(201,168,76,0.18);
+      --white: #ffffff;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     html { scroll-behavior: smooth; }
 
     body {
-      background: var(--bg);
+      background: var(--black);
       color: var(--cream);
       font-family: 'Jost', sans-serif;
       font-weight: 300;
-      min-height: 100vh;
       overflow-x: hidden;
     }
 
-    /* ---- NOISE TEXTURE ---- */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-      pointer-events: none;
-      z-index: 0;
-      opacity: 0.6;
-    }
+    a { text-decoration: none; color: inherit; }
 
-    /* ---- NAV ---- */
+    /* ========== NAV ========== */
     nav {
       position: fixed;
       top: 0; left: 0; right: 0;
-      z-index: 100;
+      z-index: 999;
+      background: rgba(0,0,0,0.95);
+      border-bottom: 1px solid var(--border);
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 1.4rem 4rem;
-      background: linear-gradient(to bottom, rgba(14,6,5,0.98), rgba(14,6,5,0));
-      transition: background 0.3s;
-    }
-
-    nav.scrolled {
-      background: rgba(14,6,5,0.97);
-      border-bottom: 1px solid var(--border);
+      padding: 1rem 3rem;
     }
 
     .nav-logo {
       font-family: 'Cormorant Garamond', serif;
       font-size: 1.6rem;
-      font-weight: 600;
+      font-weight: 700;
       color: var(--gold);
-      letter-spacing: 0.04em;
-      cursor: pointer;
-      text-decoration: none;
+      letter-spacing: 0.05em;
     }
 
     .nav-links {
-      display: flex;
-      gap: 2.5rem;
       list-style: none;
+      display: flex;
+      gap: 2rem;
     }
 
     .nav-links a {
-      color: var(--muted);
-      text-decoration: none;
-      font-size: 0.78rem;
+      font-size: 0.72rem;
       font-weight: 500;
-      letter-spacing: 0.18em;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
+      color: #aaa;
       transition: color 0.2s;
-      cursor: pointer;
     }
 
-    .nav-links a:hover,
-    .nav-links a.active {
-      color: var(--gold);
-    }
+    .nav-links a:hover { color: var(--gold); }
 
-    /* ---- SECTIONS ---- */
-    section {
-      display: none;
+    /* ========== HERO ========== */
+    #hero {
+      padding-top: 70px;
+      background: var(--black);
       min-height: 100vh;
-      position: relative;
-      z-index: 1;
+      display: flex;
+      flex-direction: column;
     }
 
-    section.active {
-      display: block;
+    .hero-top {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: calc(100vh - 70px);
     }
 
-    /* ---- HOME ---- */
-    #home {
-      display: none;
+    .hero-left {
+      display: flex;
       flex-direction: column;
       justify-content: center;
-      min-height: 100vh;
-      padding: 0;
+      padding: 5rem 4rem 5rem 5rem;
+      background: linear-gradient(135deg, #000 60%, #0a0505 100%);
       position: relative;
       overflow: hidden;
     }
 
-    #home.active {
-      display: flex;
-    }
-
-    .home-bg {
+    .hero-left::after {
+      content: '';
       position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(ellipse 60% 80% at 80% 50%, rgba(139,26,26,0.18) 0%, transparent 70%),
-        radial-gradient(ellipse 40% 60% at 20% 80%, rgba(201,168,76,0.08) 0%, transparent 60%),
-        radial-gradient(ellipse 80% 50% at 50% 0%, rgba(196,123,74,0.06) 0%, transparent 60%);
+      bottom: 0; right: 0;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(201,168,76,0.06) 0%, transparent 70%);
       pointer-events: none;
     }
 
-    .home-content {
-      max-width: 900px;
-      padding: 0 4rem;
-      margin-top: 6rem;
-      animation: fadeUp 1s ease both;
-    }
-
-    .home-eyebrow {
-      font-size: 0.72rem;
-      letter-spacing: 0.3em;
+    .hero-eyebrow {
+      font-size: 0.68rem;
+      letter-spacing: 0.35em;
       text-transform: uppercase;
       color: var(--gold);
       margin-bottom: 1.5rem;
       display: flex;
       align-items: center;
-      gap: 1rem;
+      gap: 0.8rem;
     }
 
-    .home-eyebrow::before {
+    .hero-eyebrow::before {
       content: '';
-      display: block;
-      width: 3rem;
+      width: 2.5rem;
       height: 1px;
       background: var(--gold);
-      opacity: 0.6;
+      display: block;
     }
 
-    .home-headline {
+    .hero-name {
       font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(3.5rem, 8vw, 7rem);
-      font-weight: 300;
-      line-height: 1.0;
-      color: var(--cream);
-      margin-bottom: 1rem;
+      font-size: clamp(3.5rem, 6vw, 6rem);
+      font-weight: 700;
+      line-height: 0.95;
+      color: var(--white);
+      margin-bottom: 0.5rem;
     }
 
-    .home-headline em {
-      font-style: italic;
+    .hero-name span {
       color: var(--gold);
-    }
-
-    .home-tagline {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(1.1rem, 2vw, 1.5rem);
-      font-weight: 300;
       font-style: italic;
-      color: var(--muted);
+      font-weight: 300;
+    }
+
+    .hero-tagline {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1rem, 2vw, 1.35rem);
+      font-style: italic;
+      color: #888;
+      margin: 1.2rem 0 2rem;
+      line-height: 1.6;
+      max-width: 420px;
+    }
+
+    .hero-desc {
+      font-size: 0.92rem;
+      line-height: 1.85;
+      color: rgba(245,237,214,0.55);
+      max-width: 400px;
       margin-bottom: 2.5rem;
-      line-height: 1.5;
-      max-width: 580px;
     }
 
-    .home-desc {
-      font-size: 0.95rem;
-      line-height: 1.8;
-      color: rgba(245,237,214,0.6);
-      max-width: 520px;
-      margin-bottom: 3rem;
-    }
-
-    .btn-group {
+    .btn-row {
       display: flex;
-      gap: 1.2rem;
+      gap: 1rem;
       flex-wrap: wrap;
     }
 
-    .btn-primary {
-      padding: 0.9rem 2.2rem;
+    .btn-gold {
       background: var(--gold);
-      color: var(--bg);
+      color: #000;
       font-family: 'Jost', sans-serif;
-      font-size: 0.78rem;
-      font-weight: 600;
-      letter-spacing: 0.18em;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
+      padding: 0.85rem 2rem;
       border: none;
       cursor: pointer;
-      transition: all 0.25s;
-      text-decoration: none;
+      transition: all 0.2s;
       display: inline-block;
     }
 
-    .btn-primary:hover {
-      background: var(--gold-light);
-      transform: translateY(-2px);
-    }
+    .btn-gold:hover { background: var(--gold2); transform: translateY(-2px); }
 
-    .btn-outline {
-      padding: 0.9rem 2.2rem;
+    .btn-ghost {
       background: transparent;
       color: var(--cream);
       font-family: 'Jost', sans-serif;
-      font-size: 0.78rem;
+      font-size: 0.72rem;
       font-weight: 500;
-      letter-spacing: 0.18em;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
-      border: 1px solid var(--border);
+      padding: 0.85rem 2rem;
+      border: 1px solid rgba(201,168,76,0.3);
       cursor: pointer;
-      transition: all 0.25s;
-      text-decoration: none;
+      transition: all 0.2s;
       display: inline-block;
     }
 
-    .btn-outline:hover {
-      border-color: var(--gold);
-      color: var(--gold);
-      transform: translateY(-2px);
-    }
+    .btn-ghost:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
 
-    .home-scroll-hint {
-      position: absolute;
-      bottom: 2.5rem;
-      left: 4rem;
-      font-size: 0.68rem;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: var(--muted);
+    .hero-right {
+      background: var(--black2);
       display: flex;
       align-items: center;
-      gap: 0.8rem;
+      justify-content: center;
+      padding: 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-right::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 50%, rgba(122,21,21,0.12) 0%, transparent 70%);
+    }
+
+    /* Featured book cover */
+    .featured-cover {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+    }
+
+    .book-cover-art {
+      width: 220px;
+      height: 340px;
+      background: linear-gradient(160deg, #1a0a0a 0%, #3d0f0f 40%, #1a0808 100%);
+      border: 1px solid rgba(201,168,76,0.4);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1.5rem;
+      position: relative;
+      margin: 0 auto 1.5rem;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.8), 0 0 0 1px rgba(201,168,76,0.1), inset 0 1px 0 rgba(201,168,76,0.15);
+    }
+
+    .book-cover-art::before {
+      content: '';
+      position: absolute;
+      top: 8px; left: 8px; right: 8px; bottom: 8px;
+      border: 1px solid rgba(201,168,76,0.15);
+      pointer-events: none;
+    }
+
+    .cover-ornament {
+      font-size: 1.8rem;
+      color: var(--gold);
+      opacity: 0.5;
+      margin-bottom: 1rem;
+    }
+
+    .cover-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--cream);
+      text-align: center;
+      line-height: 1.2;
+      margin-bottom: 0.8rem;
+    }
+
+    .cover-rule {
+      width: 40px;
+      height: 1px;
+      background: var(--gold);
+      margin: 0.6rem auto;
       opacity: 0.6;
     }
 
-    .home-scroll-hint::after {
-      content: '';
-      display: block;
-      width: 40px;
-      height: 1px;
-      background: var(--muted);
+    .cover-author {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.9rem;
+      font-style: italic;
+      color: var(--gold);
+      letter-spacing: 0.1em;
     }
 
-    .home-featured-book {
-      position: absolute;
-      right: 4rem;
-      bottom: 3rem;
-      max-width: 280px;
-      animation: fadeUp 1.2s 0.3s ease both;
-    }
-
-    .book-card {
+    .cover-badge {
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      background: rgba(201,168,76,0.1);
       border: 1px solid var(--border);
-      padding: 1.5rem;
-      background: rgba(22,10,7,0.8);
-      backdrop-filter: blur(10px);
+      padding: 0.35rem 1rem;
+      margin-bottom: 1rem;
+      display: inline-block;
     }
 
-    .book-card-label {
+    .featured-label {
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .featured-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      color: var(--cream);
+      font-style: italic;
+    }
+
+    /* ========== RETAILER BAR ========== */
+    .retailer-bar {
+      background: var(--black3);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 1.2rem 3rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .retailer-label {
       font-size: 0.65rem;
       letter-spacing: 0.25em;
       text-transform: uppercase;
+      color: var(--muted);
+      white-space: nowrap;
+      padding-right: 1rem;
+      border-right: 1px solid var(--border);
+    }
+
+    .retailer-links {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .retailer-btn {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--cream);
+      border: 1px solid var(--border);
+      padding: 0.5rem 1.2rem;
+      transition: all 0.2s;
+      display: inline-block;
+    }
+
+    .retailer-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+    /* ========== SECTION SHARED ========== */
+    .section-eyebrow {
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
       color: var(--gold);
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
       margin-bottom: 1rem;
+    }
+
+    .section-eyebrow::before {
+      content: '';
+      width: 2rem;
+      height: 1px;
+      background: var(--gold);
+      display: block;
+    }
+
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      font-weight: 300;
+      color: var(--white);
+      line-height: 1.1;
+      margin-bottom: 1rem;
+    }
+
+    .section-title em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    /* ========== LATEST RELEASE ========== */
+    #latest {
+      background: var(--black);
+      padding: 6rem 5rem;
+    }
+
+    .latest-grid {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 5rem;
+      align-items: start;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .latest-cover {
+      width: 240px;
+      height: 370px;
+      background: linear-gradient(160deg, #1a0a0a 0%, #3d0f0f 40%, #1a0808 100%);
+      border: 1px solid rgba(201,168,76,0.35);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1.5rem;
+      position: relative;
+      flex-shrink: 0;
+      box-shadow: 20px 20px 60px rgba(0,0,0,0.7);
+    }
+
+    .latest-cover::before {
+      content: '';
+      position: absolute;
+      top: 8px; left: 8px; right: 8px; bottom: 8px;
+      border: 1px solid rgba(201,168,76,0.12);
+    }
+
+    .latest-info {
+      padding-top: 1rem;
+    }
+
+    .genre-tags {
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      margin: 1.2rem 0;
+    }
+
+    .genre-tag {
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      padding: 0.3rem 0.8rem;
+    }
+
+    .book-blurb {
+      font-size: 0.95rem;
+      line-height: 1.9;
+      color: rgba(245,237,214,0.65);
+      max-width: 540px;
+      margin-bottom: 2rem;
+    }
+
+    .book-blurb em {
+      font-style: italic;
+      color: rgba(245,237,214,0.85);
+    }
+
+    /* ========== ALL BOOKS GRID ========== */
+    #books-section {
+      background: var(--black2);
+      padding: 6rem 5rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .books-header {
+      max-width: 1100px;
+      margin: 0 auto 3rem;
+    }
+
+    .books-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 2.5rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .book-card {
+      cursor: pointer;
+      transition: transform 0.25s;
+    }
+
+    .book-card:hover { transform: translateY(-6px); }
+
+    .book-card-cover {
+      width: 100%;
+      aspect-ratio: 2/3;
+      margin-bottom: 1rem;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+    }
+
+    .book-card-cover-inner {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1.2rem 1rem;
+      position: relative;
+    }
+
+    .book-card-cover-inner::before {
+      content: '';
+      position: absolute;
+      top: 6px; left: 6px; right: 6px; bottom: 6px;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .bc-romance {
+      background: linear-gradient(160deg, #1a0a0a 0%, #3d0f0f 100%);
+      border: 1px solid rgba(201,168,76,0.3);
+    }
+
+    .bc-dark {
+      background: linear-gradient(160deg, #080b14 0%, #0d1a2e 100%);
+      border: 1px solid rgba(100,140,200,0.3);
+    }
+
+    .bc-coming {
+      background: linear-gradient(160deg, #0a0a0a 0%, #1a1208 100%);
+      border: 1px dashed rgba(201,168,76,0.2);
+    }
+
+    .bc-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--cream);
+      text-align: center;
+      line-height: 1.2;
+      margin-bottom: 0.5rem;
+      z-index: 1;
+    }
+
+    .bc-rule {
+      width: 30px;
+      height: 1px;
+      background: var(--gold);
+      opacity: 0.5;
+      margin: 0.4rem auto;
+    }
+
+    .bc-author {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.75rem;
+      font-style: italic;
+      color: var(--gold);
+      text-align: center;
+      z-index: 1;
     }
 
     .book-card-title {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 1.4rem;
+      font-size: 1rem;
       font-weight: 600;
       color: var(--cream);
+      margin-bottom: 0.3rem;
       line-height: 1.2;
-      margin-bottom: 0.5rem;
     }
 
-    .book-card-sub {
-      font-size: 0.8rem;
+    .book-card-genre {
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
       color: var(--muted);
-      line-height: 1.6;
-      margin-bottom: 1.2rem;
+      margin-bottom: 0.6rem;
     }
 
-    /* ---- INNER PAGES ---- */
-    .page-wrapper {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 8rem 4rem 6rem;
-    }
-
-    .page-header {
-      margin-bottom: 4rem;
-      animation: fadeUp 0.8s ease both;
-    }
-
-    .page-eyebrow {
-      font-size: 0.7rem;
-      letter-spacing: 0.3em;
+    .book-card-buy {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
       text-transform: uppercase;
       color: var(--gold);
-      margin-bottom: 1rem;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
+      border-bottom: 1px solid rgba(201,168,76,0.3);
+      padding-bottom: 1px;
+      display: inline-block;
+      transition: border-color 0.2s;
     }
 
-    .page-eyebrow::before {
-      content: '';
-      display: block;
-      width: 2rem;
-      height: 1px;
-      background: var(--gold);
-      opacity: 0.6;
-    }
+    .book-card-buy:hover { border-color: var(--gold); }
 
-    .page-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(2.5rem, 5vw, 4.5rem);
-      font-weight: 300;
-      line-height: 1.05;
-      color: var(--cream);
-    }
-
-    .page-title em {
+    .coming-soon-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
       font-style: italic;
-      color: var(--gold);
     }
 
-    .divider {
-      width: 4rem;
-      height: 1px;
-      background: var(--border);
-      margin: 2rem 0;
+    /* ========== ABOUT ========== */
+    #about {
+      background: var(--black);
+      padding: 6rem 5rem;
+      border-top: 1px solid var(--border);
     }
 
-    /* ---- ABOUT ---- */
-    .about-grid {
+    .about-inner {
+      max-width: 1100px;
+      margin: 0 auto;
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 5rem;
-      animation: fadeUp 0.8s 0.2s ease both;
+      gap: 6rem;
+      align-items: start;
     }
 
     .about-text p {
-      font-size: 1rem;
+      font-size: 0.95rem;
       line-height: 1.9;
-      color: rgba(245,237,214,0.75);
-      margin-bottom: 1.5rem;
+      color: rgba(245,237,214,0.65);
+      margin-bottom: 1.4rem;
     }
 
     .about-text p strong {
@@ -372,677 +618,617 @@
     }
 
     .about-text p em {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05em;
       color: var(--gold);
       font-style: italic;
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.1em;
     }
 
-    .about-sidebar {
-      border-left: 1px solid var(--border);
-      padding-left: 3rem;
-    }
-
-    .about-pull-quote {
+    .about-pull {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 1.7rem;
+      font-size: 1.8rem;
       font-weight: 300;
       font-style: italic;
       color: var(--gold);
-      line-height: 1.4;
+      line-height: 1.35;
+      border-left: 2px solid var(--gold);
+      padding-left: 1.5rem;
       margin-bottom: 2rem;
+      opacity: 0.9;
     }
 
     .about-facts {
       list-style: none;
-      margin-top: 2rem;
+      margin-top: 1.5rem;
     }
 
     .about-facts li {
-      font-size: 0.85rem;
-      color: var(--muted);
-      padding: 0.8rem 0;
-      border-bottom: 1px solid var(--border);
       display: flex;
       gap: 1rem;
-    }
-
-    .about-facts li span:first-child {
-      color: var(--gold);
-      font-size: 0.7rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      min-width: 70px;
-    }
-
-    /* ---- BOOKS ---- */
-    .books-grid {
-      display: grid;
-      gap: 3rem;
-      animation: fadeUp 0.8s 0.2s ease both;
-    }
-
-    .book-item {
-      display: grid;
-      grid-template-columns: auto 1fr;
-      gap: 3rem;
-      padding-bottom: 3rem;
+      padding: 0.75rem 0;
       border-bottom: 1px solid var(--border);
+      font-size: 0.85rem;
     }
 
-    .book-item:last-child {
-      border-bottom: none;
-    }
-
-    .book-spine {
-      width: 110px;
-      height: 160px;
-      background: linear-gradient(135deg, var(--crimson) 0%, #4a0a0a 100%);
-      border: 1px solid rgba(201,168,76,0.3);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .book-spine::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: repeating-linear-gradient(
-        -45deg,
-        transparent,
-        transparent 10px,
-        rgba(201,168,76,0.03) 10px,
-        rgba(201,168,76,0.03) 11px
-      );
-    }
-
-    .book-spine-text {
-      font-family: 'Cormorant Garamond', serif;
+    .fact-label {
       font-size: 0.65rem;
       font-weight: 600;
       letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--gold);
-      writing-mode: vertical-rl;
-      text-orientation: mixed;
-      transform: rotate(180deg);
-      text-align: center;
-    }
-
-    .book-spine-coming {
-      width: 110px;
-      height: 160px;
-      background: linear-gradient(135deg, #1a1209 0%, #0e0a04 100%);
-      border: 1px dashed rgba(201,168,76,0.2);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-
-    .book-info-tag {
-      font-size: 0.68rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 0.6rem;
-    }
-
-    .book-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 2rem;
-      font-weight: 600;
-      color: var(--cream);
-      line-height: 1.15;
-      margin-bottom: 0.5rem;
-    }
-
-    .book-subtitle {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1rem;
-      font-style: italic;
-      color: var(--muted);
-      margin-bottom: 1rem;
-    }
-
-    .book-desc {
-      font-size: 0.92rem;
-      line-height: 1.8;
-      color: rgba(245,237,214,0.65);
-      max-width: 520px;
-      margin-bottom: 1.5rem;
-    }
-
-    .book-tags {
-      display: flex;
-      gap: 0.6rem;
-      flex-wrap: wrap;
-      margin-bottom: 1.5rem;
-    }
-
-    .tag {
-      font-size: 0.65rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--muted);
-      border: 1px solid var(--border);
-      padding: 0.3rem 0.8rem;
-    }
-
-    /* ---- NEWSLETTER ---- */
-    .newsletter-layout {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 5rem;
-      animation: fadeUp 0.8s 0.2s ease both;
-    }
-
-    .newsletter-text p {
-      font-size: 0.95rem;
-      line-height: 1.9;
-      color: rgba(245,237,214,0.7);
-      margin-bottom: 1.2rem;
-    }
-
-    .newsletter-form {
-      border: 1px solid var(--border);
-      padding: 2.5rem;
-      background: rgba(22,10,7,0.6);
-    }
-
-    .form-label {
-      font-size: 0.68rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--gold);
-      display: block;
-      margin-bottom: 0.6rem;
-    }
-
-    .form-input {
-      width: 100%;
-      background: rgba(245,237,214,0.05);
-      border: 1px solid var(--border);
-      color: var(--cream);
-      font-family: 'Jost', sans-serif;
-      font-size: 0.9rem;
-      padding: 0.9rem 1rem;
-      margin-bottom: 1.2rem;
-      outline: none;
-      transition: border-color 0.2s;
-    }
-
-    .form-input:focus {
-      border-color: var(--gold);
-    }
-
-    .form-input::placeholder {
-      color: var(--muted);
-      opacity: 0.5;
-    }
-
-    .newsletter-promise {
-      font-size: 0.75rem;
-      color: var(--muted);
-      margin-top: 1rem;
-      line-height: 1.6;
-    }
-
-    .newsletter-links {
-      margin-top: 3rem;
-    }
-
-    .newsletter-links h3 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.3rem;
-      font-weight: 400;
-      color: var(--cream);
-      margin-bottom: 1.5rem;
-    }
-
-    .social-links {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-
-    .social-link {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      font-size: 0.85rem;
-      color: var(--muted);
-      text-decoration: none;
-      padding: 0.8rem 0;
-      border-bottom: 1px solid var(--border);
-      transition: color 0.2s;
-    }
-
-    .social-link:hover {
-      color: var(--gold);
-    }
-
-    .social-link-label {
-      font-size: 0.65rem;
-      letter-spacing: 0.2em;
       text-transform: uppercase;
       color: var(--gold);
       min-width: 80px;
     }
 
-    /* ---- CONTACT ---- */
-    .contact-layout {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 5rem;
-      animation: fadeUp 0.8s 0.2s ease both;
+    .fact-val { color: #aaa; }
+
+    /* ========== NEWSLETTER ========== */
+    #newsletter {
+      background: var(--black2);
+      padding: 6rem 5rem;
+      border-top: 1px solid var(--border);
     }
 
-    .contact-intro p {
+    .newsletter-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: start;
+    }
+
+    .nl-text p {
       font-size: 0.95rem;
       line-height: 1.9;
-      color: rgba(245,237,214,0.7);
+      color: rgba(245,237,214,0.6);
       margin-bottom: 1.2rem;
     }
 
-    .contact-form {
-      display: flex;
-      flex-direction: column;
-      gap: 1.2rem;
+    .nl-form {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--border);
+      padding: 2.5rem;
     }
 
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 0.4rem;
-    }
-
-    textarea.form-input {
-      resize: vertical;
-      min-height: 130px;
-    }
-
-    .contact-detail {
-      margin-top: 2.5rem;
-      padding-top: 2.5rem;
-      border-top: 1px solid var(--border);
-    }
-
-    .contact-detail p {
-      font-size: 0.85rem;
-      color: var(--muted);
+    .form-label {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      display: block;
       margin-bottom: 0.5rem;
     }
 
-    .contact-detail a {
-      color: var(--gold);
-      text-decoration: none;
+    .form-input {
+      width: 100%;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      color: var(--cream);
+      font-family: 'Jost', sans-serif;
+      font-size: 0.9rem;
+      padding: 0.85rem 1rem;
+      margin-bottom: 1.2rem;
+      outline: none;
+      transition: border-color 0.2s;
     }
 
-    /* ---- FOOTER ---- */
-    footer {
+    .form-input:focus { border-color: var(--gold); }
+    .form-input::placeholder { color: #555; }
+
+    .nl-note {
+      font-size: 0.72rem;
+      color: #555;
+      margin-top: 1rem;
+      line-height: 1.6;
+    }
+
+    /* ========== CONTACT ========== */
+    #contact {
+      background: var(--black);
+      padding: 6rem 5rem;
       border-top: 1px solid var(--border);
-      padding: 2rem 4rem;
+    }
+
+    .contact-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+    }
+
+    .contact-text p {
+      font-size: 0.95rem;
+      line-height: 1.9;
+      color: rgba(245,237,214,0.6);
+      margin-bottom: 1.2rem;
+    }
+
+    .contact-detail {
+      margin-top: 2rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .contact-detail p { font-size: 0.85rem; color: #666; margin-bottom: 0.3rem; }
+    .contact-detail a { color: var(--gold); }
+
+    textarea.form-input { resize: vertical; min-height: 120px; }
+
+    /* ========== FOOTER ========== */
+    footer {
+      background: var(--black3);
+      border-top: 1px solid var(--border);
+      padding: 3rem 5rem;
+    }
+
+    .footer-top {
       display: flex;
       justify-content: space-between;
-      align-items: center;
-      position: relative;
-      z-index: 1;
+      align-items: flex-start;
+      max-width: 1100px;
+      margin: 0 auto 2rem;
+      gap: 3rem;
+      flex-wrap: wrap;
     }
 
     .footer-logo {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 1.2rem;
+      font-size: 1.8rem;
+      font-weight: 700;
       color: var(--gold);
-      font-weight: 600;
+    }
+
+    .footer-tagline {
+      font-size: 0.8rem;
+      color: #555;
+      margin-top: 0.3rem;
+      font-style: italic;
+      font-family: 'Cormorant Garamond', serif;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #555;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--gold); }
+
+    .amazon-disclaimer {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1.5rem 0 0;
+      border-top: 1px solid var(--border);
+      font-size: 0.72rem;
+      color: #444;
+      line-height: 1.7;
+    }
+
+    .amazon-disclaimer strong {
+      color: #666;
+      font-weight: 500;
     }
 
     .footer-copy {
-      font-size: 0.72rem;
-      color: var(--muted);
-      letter-spacing: 0.05em;
+      max-width: 1100px;
+      margin: 1.5rem auto 0;
+      font-size: 0.7rem;
+      color: #333;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.5rem;
     }
 
-    /* ---- DECORATIVE ---- */
-    .gold-line {
-      width: 100%;
-      height: 1px;
-      background: linear-gradient(to right, transparent, var(--gold), transparent);
-      opacity: 0.3;
-      margin: 3rem 0;
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 0.15; }
+      50% { transform: scale(1.4); opacity: 0.4; }
     }
 
-    /* ---- ANIMATIONS ---- */
-    @keyframes fadeUp {
-      from {
-        opacity: 0;
-        transform: translateY(28px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    /* ---- MOBILE ---- */
-    @media (max-width: 768px) {
-      nav { padding: 1.2rem 1.5rem; }
-      .nav-links { gap: 1.2rem; }
-      .nav-links a { font-size: 0.68rem; letter-spacing: 0.1em; }
-      .home-content { padding: 0 1.5rem; }
-      .home-featured-book { display: none; }
-      .page-wrapper { padding: 7rem 1.5rem 4rem; }
-      .about-grid, .newsletter-layout, .contact-layout { grid-template-columns: 1fr; gap: 3rem; }
-      .about-sidebar { border-left: none; border-top: 1px solid var(--border); padding-left: 0; padding-top: 2rem; }
-      .book-item { grid-template-columns: 1fr; gap: 1.5rem; }
-      .book-spine, .book-spine-coming { display: none; }
-      footer { flex-direction: column; gap: 1rem; text-align: center; padding: 2rem 1.5rem; }
+    /* ========== MOBILE ========== */
+    @media (max-width: 900px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { gap: 1rem; }
+      .nav-links a { font-size: 0.65rem; letter-spacing: 0.1em; }
+      .hero-top { grid-template-columns: 1fr; }
+      .hero-right { display: none; }
+      .hero-left { padding: 4rem 1.5rem; }
+      #latest { padding: 4rem 1.5rem; }
+      .latest-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .latest-cover { width: 180px; height: 280px; }
+      #books-section { padding: 4rem 1.5rem; }
+      .books-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 1.5rem; }
+      #about { padding: 4rem 1.5rem; }
+      .about-inner { grid-template-columns: 1fr; gap: 3rem; }
+      #newsletter { padding: 4rem 1.5rem; }
+      .newsletter-inner { grid-template-columns: 1fr; gap: 3rem; }
+      #contact { padding: 4rem 1.5rem; }
+      .contact-inner { grid-template-columns: 1fr; gap: 3rem; }
+      footer { padding: 3rem 1.5rem; }
+      .retailer-bar { padding: 1rem 1.5rem; }
     }
   </style>
 </head>
 <body>
 
-  <!-- NAV -->
-  <nav id="navbar">
-    <a class="nav-logo" onclick="showSection('home')">Dani Elle</a>
-    <ul class="nav-links">
-      <li><a onclick="showSection('home')" class="active" data-section="home">Home</a></li>
-      <li><a onclick="showSection('about')" data-section="about">About</a></li>
-      <li><a onclick="showSection('books')" data-section="books">Books</a></li>
-      <li><a onclick="showSection('newsletter')" data-section="newsletter">Newsletter</a></li>
-      <li><a onclick="showSection('contact')" data-section="contact">Contact</a></li>
-    </ul>
-  </nav>
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Dani Elle Writes</div>
+  <ul class="nav-links">
+    <li><a href="#hero">Home</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#books-section">Books</a></li>
+    <li><a href="#podcast">Podcast</a></li>
+    <li><a href="#shop">Shop</a></li>
+    <li><a href="#newsletter">Newsletter</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
 
-  <!-- HOME -->
-  <section id="home" class="active">
-    <div class="home-bg"></div>
-    <div class="home-content">
-      <div class="home-eyebrow">Jamaican Roots. American Routes.</div>
-      <h1 class="home-headline">
-        Stories that<br/><em>tell the truth</em><br/>about love.
-      </h1>
-      <p class="home-tagline">Bold. Naughty. Unapologetically Black.</p>
-      <p class="home-desc">
-        Contemporary fiction with heat, heart, and the kind of honesty that makes you put the book down and stare at the ceiling for a minute.
-      </p>
-      <div class="btn-group">
-        <button class="btn-primary" onclick="showSection('books')">Read My Work</button>
-        <button class="btn-outline" onclick="showSection('about')">Meet Dani</button>
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-top">
+    <div class="hero-left">
+      <div class="hero-eyebrow">Jamaican Roots &bull; American Routes</div>
+      <h1 class="hero-name">Dani<br/><span>Elle</span></h1>
+      <p class="hero-tagline">Bold. Naughty. Unapologetically Black.<br/>Stories that tell the truth about love.</p>
+      <p class="hero-desc">Contemporary women's fiction and Black romance with heat, heart, and the kind of honesty that makes you put the book down and stare at the ceiling for a minute.</p>
+      <div class="btn-row">
+        <a href="#books-section" class="btn-gold">Browse Books</a>
+        <a href="#about" class="btn-ghost">Meet Dani</a>
       </div>
     </div>
 
-    <div class="home-featured-book">
-      <div class="book-card">
-        <div class="book-card-label">Featured Title</div>
-        <div class="book-card-title">Breaking the Good Wife</div>
-        <div class="book-card-sub">She built herself into the perfect wife. He asked for a divorce at a bus stop. Now "not enough" is her battle cry.</div>
-        <button class="btn-primary" onclick="showSection('books')" style="font-size:0.7rem; padding: 0.7rem 1.5rem;">Read More</button>
+    <div class="hero-right">
+      <div class="featured-cover">
+        <div class="cover-badge">Featured Title</div>
+        <div class="book-cover-art">
+          <div class="cover-ornament">&#10022;</div>
+          <div class="cover-title">Breaking the Good Wife</div>
+          <div class="cover-rule"></div>
+          <div class="cover-author">Dani Elle</div>
+        </div>
+        <div class="featured-label">Coming Soon</div>
+        <div class="featured-title">Breaking the Good Wife</div>
       </div>
     </div>
+  </div>
 
-    <div class="home-scroll-hint">Explore</div>
-  </section>
+  <!-- RETAILER BAR -->
+  <div class="retailer-bar">
+    <div class="retailer-label">Find My Books On</div>
+    <div class="retailer-links">
+      <a href="https://www.amazon.com/s?k=Dani+Elle&i=stripbooks" target="_blank" class="retailer-btn">Amazon</a>
+      <a href="https://www.goodreads.com/author/show/20266243.Dani_Elle" target="_blank" class="retailer-btn">Goodreads</a>
+      <a href="https://www.barnesandnoble.com/s/Dani+Elle" target="_blank" class="retailer-btn">Barnes &amp; Noble</a>
+      <a href="https://books.apple.com/us/search?term=Dani+Elle" target="_blank" class="retailer-btn">Apple Books</a>
+    </div>
+  </div>
+</section>
 
-  <!-- ABOUT -->
-  <section id="about">
-    <div class="page-wrapper">
-      <div class="page-header">
-        <div class="page-eyebrow">The Woman Behind the Words</div>
-        <h2 class="page-title">About <em>Dani Elle</em></h2>
-        <div class="divider"></div>
+<!-- LATEST RELEASE -->
+<section id="latest" style="background:var(--black); padding:6rem 5rem; border-top:1px solid var(--border);">
+  <div style="max-width:1100px; margin:0 auto;">
+    <div class="section-eyebrow">Current Work</div>
+    <h2 class="section-title">Latest <em>Release</em></h2>
+    <div style="width:3rem; height:1px; background:var(--border); margin:1.5rem 0 3rem;"></div>
+
+    <div class="latest-grid">
+      <div class="latest-cover">
+        <div class="cover-ornament" style="font-size:1.4rem; color:var(--gold); opacity:0.4; margin-bottom:0.8rem;">&#10022;</div>
+        <div class="cover-title" style="font-family:'Cormorant Garamond',serif; font-size:1.3rem; font-weight:700; color:var(--cream); text-align:center; line-height:1.2; margin-bottom:0.5rem;">Breaking the Good Wife</div>
+        <div style="width:30px;height:1px;background:var(--gold);opacity:0.5;margin:0.4rem auto;"></div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:0.8rem;font-style:italic;color:var(--gold);text-align:center;">Dani Elle</div>
       </div>
 
-      <div class="about-grid">
-        <div class="about-text">
-          <p>
-            I was born in Jamaica and raised on stories. Not just the ones in books -- the ones my family told at the table, the ones passed between women in kitchens and on porches. <strong>Storytelling, for me, has always been how people hold on to each other.</strong>
-          </p>
-          <p>
-            By nine years old I was already writing. Not because someone told me to -- because I couldn't not. I had things to say about love, about women, about what it costs to be soft in a world that rewards armor.
-          </p>
-          <p>
-            My early work leaned hard into romance -- <em>Black love, heat, instant connection, the kind of stories that make you fan yourself.</em> I'm not apologizing for that. That work is real and it matters and it's still me. But I've been growing. My fiction is finding a deeper register -- women standing in the wreckage of their own perfect lives and choosing themselves anyway.
-          </p>
-          <p>
-            <strong>Breaking the Good Wife</strong> is that evolution in motion. It's still got Dani Elle's fingerprints all over it -- the wit, the heat, the honesty -- but it's asking bigger questions. About sacrifice. About identity. About what you become when you stop shrinking.
-          </p>
-          <p>
-            I live between my Jamaican roots and my American routes, and that's exactly where my stories live too.
-          </p>
+      <div class="latest-info">
+        <div class="section-eyebrow" style="margin-bottom:0.5rem;">Contemporary Women's Fiction</div>
+        <h3 style="font-family:'Cormorant Garamond',serif; font-size:2.5rem; font-weight:600; color:var(--white); line-height:1.1; margin-bottom:0.5rem;">Breaking the Good Wife</h3>
+        <p style="font-family:'Cormorant Garamond',serif; font-size:1.1rem; font-style:italic; color:var(--muted); margin-bottom:1.5rem;">Sometimes "not enough" is just the beginning.</p>
+        <div class="genre-tags">
+          <span class="genre-tag">Women's Fiction</span>
+          <span class="genre-tag">Black Love</span>
+          <span class="genre-tag">Betrayal</span>
+          <span class="genre-tag">Reinvention</span>
         </div>
-
-        <div class="about-sidebar">
-          <div class="about-pull-quote">
-            "I write the women who are done being small."
-          </div>
-          <p style="font-size:0.85rem; color:var(--muted); line-height:1.8; margin-bottom: 1.5rem;">
-            Contemporary women's fiction and romance rooted in Black love, Jamaican soul, and the kind of truth that stings a little.
-          </p>
-          <ul class="about-facts">
-            <li>
-              <span>Roots</span>
-              <span>Jamaica</span>
-            </li>
-            <li>
-              <span>Routes</span>
-              <span>United States</span>
-            </li>
-            <li>
-              <span>Genre</span>
-              <span>Contemporary Women's Fiction, Black Romance</span>
-            </li>
-            <li>
-              <span>Pen Name</span>
-              <span>Dani Elle</span>
-            </li>
-            <li>
-              <span>Writing since</span>
-              <span>Age 9</span>
-            </li>
-          </ul>
+        <p class="book-blurb">Some women fight for their marriage. Kennesha Forbes is done fighting. For eight years, she molded herself into the perfect wife -- cutting off friends, turning down opportunities, making herself smaller so Fitzroy Scott could shine.</p>
+        <p class="book-blurb">She thought their wedding would be a fresh start. Instead, at a bus stop on a Monday morning, he asks for a divorce. No explanation. No real reason. Just: <em>"You're not enough."</em></p>
+        <p class="book-blurb">But when Kennesha discovers the truth behind his betrayal, "not enough" becomes her battle cry.</p>
+        <div class="btn-row">
+          <a href="#newsletter" class="btn-gold">Get Notified on Release</a>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- BOOKS -->
-  <section id="books">
-    <div class="page-wrapper">
-      <div class="page-header">
-        <div class="page-eyebrow">My Work</div>
-        <h2 class="page-title">The <em>Books</em></h2>
-        <div class="divider"></div>
+<!-- ALL BOOKS -->
+<section id="books-section">
+  <div class="books-header">
+    <div class="section-eyebrow">The Collection</div>
+    <h2 class="section-title">All <em>Books</em></h2>
+    <div style="width:3rem; height:1px; background:var(--border); margin-top:1.5rem;"></div>
+  </div>
+
+  <div class="books-grid">
+
+    <!-- Breaking the Good Wife - Coming Soon Teaser -->
+    <div class="book-card">
+      <div class="book-card-cover" style="position:relative; overflow:hidden;">
+        <div style="width:100%; height:100%; background:linear-gradient(160deg,#000 0%,#0a0505 60%,#150808 100%); border:1px solid rgba(201,168,76,0.25); display:flex; flex-direction:column; align-items:center; justify-content:center; padding:1.5rem; position:relative;">
+          <!-- animated pulse ring -->
+          <div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; pointer-events:none;">
+            <div style="width:80px; height:80px; border-radius:50%; border:1px solid rgba(201,168,76,0.1); animation:pulse 2.5s ease-in-out infinite;"></div>
+          </div>
+          <div style="font-size:0.55rem; letter-spacing:0.3em; text-transform:uppercase; color:var(--gold); opacity:0.7; margin-bottom:1rem; z-index:1;">Coming Soon</div>
+          <div style="font-family:'Cormorant Garamond',serif; font-size:1rem; font-weight:700; color:var(--cream); text-align:center; line-height:1.2; margin-bottom:0.6rem; z-index:1;">Breaking the<br/>Good Wife</div>
+          <div style="width:25px;height:1px;background:var(--gold);opacity:0.4;margin:0.3rem auto;"></div>
+          <div style="font-family:'Cormorant Garamond',serif; font-size:0.7rem; font-style:italic; color:var(--gold); opacity:0.6; z-index:1;">Dani Elle</div>
+          <!-- corner accents -->
+          <div style="position:absolute; top:8px; left:8px; width:12px; height:12px; border-top:1px solid rgba(201,168,76,0.3); border-left:1px solid rgba(201,168,76,0.3);"></div>
+          <div style="position:absolute; top:8px; right:8px; width:12px; height:12px; border-top:1px solid rgba(201,168,76,0.3); border-right:1px solid rgba(201,168,76,0.3);"></div>
+          <div style="position:absolute; bottom:8px; left:8px; width:12px; height:12px; border-bottom:1px solid rgba(201,168,76,0.3); border-left:1px solid rgba(201,168,76,0.3);"></div>
+          <div style="position:absolute; bottom:8px; right:8px; width:12px; height:12px; border-bottom:1px solid rgba(201,168,76,0.3); border-right:1px solid rgba(201,168,76,0.3);"></div>
+        </div>
       </div>
+      <div class="book-card-title">Breaking the Good Wife</div>
+      <div class="book-card-genre">Women's Fiction</div>
+      <a href="#newsletter" class="book-card-buy">Get Notified</a>
+    </div>
 
-      <div class="books-grid">
+    <!-- UnMasked -->
+    <div class="book-card">
+      <div class="book-card-cover">
+        <img src="NYE-UNMASKED-FINAL.jpg" alt="UnMasked by Dani Elle" style="width:100%;height:100%;object-fit:cover;display:block;"/>
+      </div>
+      <div class="book-card-title">UnMasked</div>
+      <div class="book-card-genre">Black Romance</div>
+      <a href="https://www.amazon.com/s?k=UnMasked+Dani+Elle" target="_blank" class="book-card-buy">Buy Now</a>
+    </div>
 
-        <!-- Breaking the Good Wife -->
-        <div class="book-item">
-          <div class="book-spine">
-            <div class="book-spine-text">Breaking the Good Wife &mdash; Dani Elle</div>
-          </div>
-          <div>
-            <div class="book-info-tag">Current Work &bull; Contemporary Women's Fiction</div>
-            <div class="book-title">Breaking the Good Wife</div>
-            <div class="book-subtitle">Sometimes "not enough" is the beginning.</div>
-            <div class="book-tags">
-              <span class="tag">Women's Fiction</span>
-              <span class="tag">Black Love</span>
-              <span class="tag">Reinvention</span>
-              <span class="tag">Betrayal</span>
-            </div>
-            <p class="book-desc">
-              Some women fight for their marriage. Kennesha Forbes is done fighting. For eight years, she molded herself into the perfect wife -- cutting off friends, turning down opportunities, making herself smaller so Fitzroy Scott could shine. She thought their wedding would be a fresh start. Instead, at a bus stop on a Monday morning, he asks for a divorce. No explanation. No real reason. Just: <em>"You're not enough."</em>
-            </p>
-            <p class="book-desc">
-              But when Kennesha discovers the truth behind his betrayal, "not enough" becomes her battle cry.
-            </p>
-          </div>
+    <!-- Confessions -->
+    <div class="book-card">
+      <div class="book-card-cover">
+        <img src="CONFESSIONS.png" alt="Confessions by Dani Elle" style="width:100%;height:100%;object-fit:cover;display:block;"/>
+      </div>
+      <div class="book-card-title">Confessions</div>
+      <div class="book-card-genre">Black Romance</div>
+      <a href="https://www.amazon.com/s?k=Confessions+Dani+Elle" target="_blank" class="book-card-buy">Buy Now</a>
+    </div>
+
+    <!-- New Heights -->
+    <div class="book-card">
+      <div class="book-card-cover">
+        <img src="New%20heights.jpg" alt="New Heights by Dani Elle" style="width:100%;height:100%;object-fit:cover;display:block;"/>
+      </div>
+      <div class="book-card-title">New Heights</div>
+      <div class="book-card-genre">Black Romance</div>
+      <a href="https://www.amazon.com/s?k=New+Heights+Dani+Elle" target="_blank" class="book-card-buy">Buy Now</a>
+    </div>
+
+    <!-- Reviving the Christmas Spirit -->
+    <div class="book-card">
+      <div class="book-card-cover">
+        <img src="Reviving%20the%20Christmas%20Spirit.png" alt="Reviving the Christmas Spirit by Dani Elle" style="width:100%;height:100%;object-fit:cover;display:block;"/>
+      </div>
+      <div class="book-card-title">Reviving the Christmas Spirit</div>
+      <div class="book-card-genre">Black Romance</div>
+      <a href="https://www.amazon.com/s?k=Reviving+the+Christmas+Spirit+Dani+Elle" target="_blank" class="book-card-buy">Buy Now</a>
+    </div>
+
+    <!-- Coming Soon placeholder -->
+    <div class="book-card">
+      <div class="book-card-cover">
+        <div class="book-card-cover-inner bc-coming" style="align-items:center; justify-content:center;">
+          <div style="font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:#444;text-align:center;">More<br/>Coming<br/>Soon</div>
         </div>
+      </div>
+      <div class="book-card-title" style="color:#444;">More Coming</div>
+      <div class="book-card-genre">Stay tuned</div>
+      <a href="#newsletter" class="book-card-buy">Get Notified</a>
+    </div>
 
-        <!-- Placeholder for earlier work -->
-        <div class="book-item">
-          <div class="book-spine-coming">
-            <div style="font-size:0.65rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--muted); text-align:center; padding:1rem;">More<br/>Coming</div>
-          </div>
-          <div>
-            <div class="book-info-tag">Available Now &bull; Romance</div>
-            <div class="book-title">UnMasked</div>
-            <div class="book-subtitle">Insta-connection. Naughty twists. No apologies.</div>
-            <div class="book-tags">
-              <span class="tag">Black Romance</span>
-              <span class="tag">Spicy</span>
-              <span class="tag">Insta-Love</span>
-            </div>
-            <p class="book-desc">
-              Sharp, witty, and unapologetically bold. The kind of romance that pulls you in from page one and doesn't let you breathe until the last line.
-            </p>
-            <div class="btn-group">
-              <a href="https://www.goodreads.com/author/show/20266243.Dani_Elle" target="_blank" class="btn-outline" style="font-size:0.7rem; padding:0.7rem 1.5rem;">View on Goodreads</a>
-            </div>
-          </div>
-        </div>
+  </div>
+</section>
 
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-inner">
+    <div>
+      <div class="section-eyebrow">The Woman Behind the Words</div>
+      <h2 class="section-title">About <em>Dani Elle</em></h2>
+      <div style="width:3rem;height:1px;background:var(--border);margin:1.5rem 0 2.5rem;"></div>
+      <div class="about-text">
+        <p>I was born in Jamaica and raised on stories. Not just the ones in books -- the ones my family told at the table, the ones passed between women in kitchens and on porches. <strong>Storytelling has always been how people hold on to each other.</strong></p>
+        <p>By nine years old I was already writing. Not because someone told me to -- because I couldn't not. I had things to say about love, about women, about what it costs to be soft in a world that rewards armor.</p>
+        <p>My early work leans hard into romance -- <em>Black love, heat, instant connection, the kind of stories that make you fan yourself.</em> I'm not apologizing for that. But I've been growing. My fiction is finding a deeper register -- women standing in the wreckage of their own perfect lives and choosing themselves anyway.</p>
+        <p><strong>Breaking the Good Wife</strong> is that evolution in motion. It's still got Dani Elle's fingerprints all over it -- the wit, the heat, the honesty -- but it's asking bigger questions now.</p>
+      </div>
+      <div style="margin-top:2rem;">
+        <a href="#newsletter" class="btn-gold">Join My Newsletter</a>
       </div>
     </div>
-  </section>
 
-  <!-- NEWSLETTER -->
-  <section id="newsletter">
-    <div class="page-wrapper">
-      <div class="page-header">
-        <div class="page-eyebrow">Stay Connected</div>
-        <h2 class="page-title">The <em>Newsletter</em></h2>
-        <div class="divider"></div>
+    <div>
+      <div class="about-pull">"I write the women who are done being small."</div>
+      <ul class="about-facts">
+        <li><span class="fact-label">Roots</span><span class="fact-val">Jamaica</span></li>
+        <li><span class="fact-label">Routes</span><span class="fact-val">United States</span></li>
+        <li><span class="fact-label">Genre</span><span class="fact-val">Contemporary Women's Fiction &amp; Black Romance</span></li>
+        <li><span class="fact-label">Pen Name</span><span class="fact-val">Dani Elle</span></li>
+        <li><span class="fact-label">Writing Since</span><span class="fact-val">Age 9</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- PODCAST -->
+<section id="podcast" style="background:var(--black2); padding:6rem 5rem; border-top:1px solid var(--border);">
+  <div style="max-width:1100px; margin:0 auto;">
+    <div class="section-eyebrow">Coming Soon</div>
+    <h2 class="section-title">The <em>Podcast</em></h2>
+    <div style="width:3rem;height:1px;background:var(--border);margin:1.5rem 0 3rem;"></div>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:5rem; align-items:center;">
+      <div>
+        <p style="font-size:0.95rem;line-height:1.9;color:rgba(245,237,214,0.6);margin-bottom:1.2rem;">
+          Something is coming. Real conversations about love, writing, womanhood, and the stories we tell ourselves. The kind of talk that happens between women who are done being polite about it.
+        </p>
+        <p style="font-size:0.95rem;line-height:1.9;color:rgba(245,237,214,0.6);margin-bottom:2rem;">
+          Sign up to be the first to know when we go live.
+        </p>
+        <a href="#newsletter" class="btn-gold">Notify Me</a>
       </div>
 
-      <div class="newsletter-layout">
-        <div class="newsletter-text">
-          <p>
-            This isn't a corporate email list. It's a conversation. When I write to you, it'll be honest -- what I'm working on, what's inspiring me, what's frustrating me about the craft, and occasionally something that made me laugh so hard I had to share it.
-          </p>
-          <p>
-            Jamaican-born. Story-obsessed. Never boring.
-          </p>
-          <p>
-            Sign up and I'll land in your inbox when I have something actually worth saying.
-          </p>
-
-          <div class="newsletter-links">
-            <h3>Find Me Here</h3>
-            <div class="social-links">
-              <a href="https://www.goodreads.com/author/show/20266243.Dani_Elle" target="_blank" class="social-link">
-                <span class="social-link-label">Goodreads</span>
-                <span>Follow my reading + writing life</span>
-              </a>
-              <a href="https://www.dwrites.com" class="social-link">
-                <span class="social-link-label">Website</span>
-                <span>dwrites.com</span>
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <div>
-          <div class="newsletter-form">
-            <div class="book-card-label" style="margin-bottom:1.5rem;">Join the List</div>
-            <div class="form-group">
-              <label class="form-label">First Name</label>
-              <input type="text" class="form-input" placeholder="Your first name"/>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Email Address</label>
-              <input type="email" class="form-input" placeholder="your@email.com"/>
-            </div>
-            <button class="btn-primary" style="width:100%; margin-top:0.5rem;">Subscribe</button>
-            <p class="newsletter-promise">
-              No spam. No corporate nonsense. Just real words from a real writer. Unsubscribe anytime.
-            </p>
-          </div>
-        </div>
+      <div style="border:1px dashed rgba(201,168,76,0.2); padding:3rem; text-align:center; background:rgba(255,255,255,0.01);">
+        <div style="font-size:3rem; margin-bottom:1rem; opacity:0.3;">&#127911;</div>
+        <div style="font-family:'Cormorant Garamond',serif; font-size:1.8rem; font-style:italic; color:var(--gold); opacity:0.5; margin-bottom:0.5rem;">Coming Soon</div>
+        <div style="font-size:0.7rem; letter-spacing:0.2em; text-transform:uppercase; color:#444;">Episode 1 dropping soon</div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- CONTACT -->
-  <section id="contact">
-    <div class="page-wrapper">
-      <div class="page-header">
-        <div class="page-eyebrow">Get in Touch</div>
-        <h2 class="page-title">Let's <em>Connect</em></h2>
-        <div class="divider"></div>
+<!-- SHOP -->
+<section id="shop" style="background:var(--black); padding:6rem 5rem; border-top:1px solid var(--border);">
+  <div style="max-width:1100px; margin:0 auto;">
+    <div class="section-eyebrow">Coming Soon</div>
+    <h2 class="section-title">The <em>Shop</em></h2>
+    <div style="width:3rem;height:1px;background:var(--border);margin:1.5rem 0 3rem;"></div>
+
+    <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:2rem;">
+
+      <div style="border:1px dashed rgba(201,168,76,0.15); padding:2.5rem 2rem; text-align:center; background:rgba(255,255,255,0.01);">
+        <div style="font-size:2rem; margin-bottom:1rem; opacity:0.3;">&#128218;</div>
+        <div style="font-family:'Cormorant Garamond',serif; font-size:1.1rem; color:var(--cream); margin-bottom:0.5rem;">Signed Paperbacks</div>
+        <div style="font-size:0.7rem; letter-spacing:0.15em; text-transform:uppercase; color:#444;">Coming Soon</div>
       </div>
 
-      <div class="contact-layout">
-        <div class="contact-intro">
-          <p>
-            Whether you're a reader who wants to tell me what that ending did to you, a fellow writer who wants to connect, or a media or book club inquiry -- I actually read these.
-          </p>
-          <p>
-            No bots. No templates. Just me.
-          </p>
+      <div style="border:1px dashed rgba(201,168,76,0.15); padding:2.5rem 2rem; text-align:center; background:rgba(255,255,255,0.01);">
+        <div style="font-size:2rem; margin-bottom:1rem; opacity:0.3;">&#128241;</div>
+        <div style="font-family:'Cormorant Garamond',serif; font-size:1.1rem; color:var(--cream); margin-bottom:0.5rem;">eBooks</div>
+        <div style="font-size:0.7rem; letter-spacing:0.15em; text-transform:uppercase; color:#444;">Coming Soon</div>
+      </div>
 
-          <div class="contact-detail">
-            <p>For media or general inquiries:</p>
-            <p><a href="mailto:hello@dwrites.com">hello@dwrites.com</a></p>
-          </div>
+      <div style="border:1px dashed rgba(201,168,76,0.15); padding:2.5rem 2rem; text-align:center; background:rgba(255,255,255,0.01);">
+        <div style="font-size:2rem; margin-bottom:1rem; opacity:0.3;">&#127381;</div>
+        <div style="font-family:'Cormorant Garamond',serif; font-size:1.1rem; color:var(--cream); margin-bottom:0.5rem;">Merch</div>
+        <div style="font-size:0.7rem; letter-spacing:0.15em; text-transform:uppercase; color:#444;">Coming Soon</div>
+      </div>
 
-          <div class="contact-detail">
-            <p>For book clubs and speaking:</p>
-            <p style="font-size:0.85rem; color:var(--muted); line-height:1.7;">I love talking with book clubs. If your group is reading my work, reach out and let's make it happen.</p>
-          </div>
-        </div>
+    </div>
 
-        <div class="contact-form">
-          <div class="form-group">
-            <label class="form-label">Your Name</label>
-            <input type="text" class="form-input" placeholder="Full name"/>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Email</label>
-            <input type="email" class="form-input" placeholder="your@email.com"/>
-          </div>
-          <div class="form-group">
-            <label class="form-label">What's This About</label>
-            <input type="text" class="form-input" placeholder="Reader love, media, book club..."/>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Your Message</label>
-            <textarea class="form-input" placeholder="Say what you need to say."></textarea>
-          </div>
-          <button class="btn-primary">Send Message</button>
-        </div>
+    <div style="margin-top:3rem; text-align:center;">
+      <p style="font-size:0.85rem; color:#555; margin-bottom:1.5rem;">Want to know when the shop opens?</p>
+      <a href="#newsletter" class="btn-ghost">Join the Newsletter</a>
+    </div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section id="newsletter">
+  <div class="newsletter-inner">
+    <div>
+      <div class="section-eyebrow">Stay Connected</div>
+      <h2 class="section-title">The <em>Newsletter</em></h2>
+      <div style="width:3rem;height:1px;background:var(--border);margin:1.5rem 0 2rem;"></div>
+      <div class="nl-text">
+        <p>This isn't a corporate email list. It's a conversation. When I write to you it'll be honest -- what I'm working on, what's inspiring me, what's making me laugh, and when new books drop.</p>
+        <p>Jamaican-born. Story-obsessed. Never boring.</p>
       </div>
     </div>
-  </section>
 
-  <!-- FOOTER -->
-  <footer>
-    <div class="footer-logo">Dani Elle</div>
-    <div class="footer-copy">&copy; 2025 Dani Elle &mdash; dwrites.com &mdash; All rights reserved.</div>
-  </footer>
+    <div class="nl-form">
+      <div style="font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:1.5rem;">Join the List</div>
+      <label class="form-label">First Name</label>
+      <input type="text" class="form-input" placeholder="Your first name"/>
+      <label class="form-label">Email Address</label>
+      <input type="email" class="form-input" placeholder="your@email.com"/>
+      <button class="btn-gold" style="width:100%;margin-top:0.5rem;padding:1rem;">Subscribe</button>
+      <p class="nl-note">No spam. No nonsense. Just real words from a real writer. Unsubscribe anytime.</p>
+    </div>
+  </div>
+</section>
 
-  <script>
-    function showSection(id) {
-      document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
-      document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
-      document.getElementById(id).classList.add('active');
-      const link = document.querySelector(`.nav-links a[data-section="${id}"]`);
-      if (link) link.classList.add('active');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-inner">
+    <div>
+      <div class="section-eyebrow">Get in Touch</div>
+      <h2 class="section-title">Let's <em>Connect</em></h2>
+      <div style="width:3rem;height:1px;background:var(--border);margin:1.5rem 0 2rem;"></div>
+      <div class="contact-text">
+        <p>Whether you're a reader who wants to tell me what that ending did to you, a fellow writer, or a media or book club inquiry -- I actually read these. No bots. Just me.</p>
+      </div>
+      <div class="contact-detail">
+        <p>Media &amp; general inquiries:</p>
+        <p><a href="mailto:hello@dwrites.com">hello@dwrites.com</a></p>
+      </div>
+      <div class="contact-detail">
+        <p style="color:var(--muted);font-size:0.82rem;margin-top:0.5rem;line-height:1.7;">I love connecting with book clubs. If your group is reading my work, reach out and let's make it happen.</p>
+      </div>
+    </div>
 
-    // Navbar scroll effect
-    window.addEventListener('scroll', () => {
-      const nav = document.getElementById('navbar');
-      if (window.scrollY > 40) nav.classList.add('scrolled');
-      else nav.classList.remove('scrolled');
-    });
-  </script>
+    <div style="display:flex;flex-direction:column;gap:1.2rem;">
+      <div>
+        <label class="form-label">Your Name</label>
+        <input type="text" class="form-input" placeholder="Full name"/>
+      </div>
+      <div>
+        <label class="form-label">Email</label>
+        <input type="email" class="form-input" placeholder="your@email.com"/>
+      </div>
+      <div>
+        <label class="form-label">Subject</label>
+        <input type="text" class="form-input" placeholder="Reader love, media, book club..."/>
+      </div>
+      <div>
+        <label class="form-label">Message</label>
+        <textarea class="form-input" placeholder="Say what you need to say."></textarea>
+      </div>
+      <button class="btn-gold" style="width:100%;padding:1rem;">Send Message</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-logo">Dani Elle Writes</div>
+      <div class="footer-tagline">Jamaican Roots. American Routes. Real Stories.</div>
+    </div>
+    <div class="footer-links">
+      <a href="#hero">Home</a>
+      <a href="#about">About</a>
+      <a href="#books-section">Books</a>
+      <a href="#podcast">Podcast</a>
+      <a href="#shop">Shop</a>
+      <a href="#newsletter">Newsletter</a>
+      <a href="#contact">Contact</a>
+      <a href="https://www.goodreads.com/author/show/20266243.Dani_Elle" target="_blank">Goodreads</a>
+    </div>
+  </div>
+
+  <div class="amazon-disclaimer">
+    <strong>Amazon Associates Disclosure:</strong> Dani Elle is a participant in the Amazon Services LLC Associates Program, an affiliate advertising program designed to provide a means for sites to earn advertising fees by advertising and linking to Amazon.com. As an Amazon Associate, I earn from qualifying purchases. This means if you click on a link to Amazon and make a purchase, I may receive a small commission at no additional cost to you.
+  </div>
+
+  <div class="footer-copy">
+    <span>&copy; 2025 Dani Elle Writes &mdash; dwrites.com &mdash; All rights reserved.</span>
+    <span>Site uses affiliate links.</span>
+  </div>
+</footer>
+
 </body>
 </html>
